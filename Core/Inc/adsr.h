@@ -24,6 +24,10 @@
 #define BUFSIZE 256
 #endif
 
+#ifndef MAX_RELEASE
+#define MAX_RELEASE 10
+#endif
+
 #define MIN_ATTACK 1
 #define MIN_DECAY 1
 #define MIN_RELEASE 1
@@ -31,11 +35,22 @@
 #define MAX_ATTACK 0xff
 #define MAX_DECAY 0xff
 #define MAX_SUSTAIN 0xff
-#define MAX_RELEASE 0x01
+#define MAX_RELEASE 0xff
 
 // in seconds, no smaller than 1
 #define ATTACK_MAX_TIME 1
 #define DECAY_MAX_TIME 1
+#define RELEASE_MAX_TIME 1
+
+#if ATTACK_MAX_TIME == DECAY_MAX_TIME
+#if ATTACK_MAX_TIME == RELEASE_MAX_TIME
+#define COALESCED 1
+#else
+#define NOT_COALESCED 1
+#endif
+#else
+#define NOT_COALESCED 1
+#endif
 
 #define ATTACK_COUNT_MAX (SAMPLING_FREQUENCY * 1000 * ATTACK_MAX_TIME)
 #define DECAY_COUNT_MAX (SAMPLING_FREQUENCY * 1000 * DECAY_MAX_TIME)
